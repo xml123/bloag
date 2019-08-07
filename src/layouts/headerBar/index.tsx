@@ -50,7 +50,7 @@ function axios3():any{
 function listTest(list:IListItem[]):any{
   return list.map((item:IListItem)=>{
     return (<Menu.Item key={item.id}>
-      <Link rel="noopener noreferrer" to="/artical">
+      <Link rel="noopener noreferrer" to={'/artical/'+item.title}>
         {item.title}
       </Link>
     </Menu.Item>)

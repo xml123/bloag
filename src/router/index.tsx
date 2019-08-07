@@ -13,7 +13,7 @@ const AppRoutes = () => (
             <Route path="/home" component={HomePage} />
             <Route path="/friend" component={Friend} />
             <Route path="/message" component={Message} />
-            <Route path="/artical" component={ArticalDetail} />
+            <Route path="/artical/:id" component={ArticalDetail} />
         </div>
     </Router>
 )

@@ -4,9 +4,26 @@ import HomeHeader from '../../layouts/headerBar'
 import Footer from '../../layouts/footer'
 import { Icon, Pagination } from 'antd'
 import './style.scss'
+import axios from 'axios'
+import config from '../../../config/index'
 
 interface IProps {
     style: React.CSSProperties
+}
+
+type IItem = {
+    id:number,
+    title:string,
+    view:number,
+    content:string,
+    time:string,
+    type:string
+}
+
+type IState = {
+    articalList:IItem[],
+    status:string,
+    total:number
 }
 
 function itemRender(current:number, type:string, originalElement:any) {
@@ -19,72 +36,74 @@ function itemRender(current:number, type:string, originalElement:any) {
     return originalElement;
 }
 
-class App extends React.Component<IProps,any> {
+class App extends React.Component<IProps,IState> {
     constructor(props: IProps) {
         super(props);
     }
 
+    state = {total:0} as IState
+
+    getAllArtical(pageNum=1){
+        axios.post(config.API_BASE_URL+'/api/get_all_artical',{pageNum})
+        .then(res => {
+            this.setState({
+                articalList:res.data.data,
+                status:res.data.code,
+                total:res.data.total
+            })
+            document.documentElement.scrollTop = document.body.scrollTop =0
+        })
+        .catch(function(err){
+            console.log(err)
+        })
+    }
+
+    componentDidMount(){
+        this.getAllArtical()
+    }
+
+    onChangePage(page:number,pageSize:any):void{
+        this.getAllArtical(page)
+    }
+
     render() {
+      const {articalList,status,total} = this.state
       return (
         <div className={style.wrapper}>
             <HomeHeader />
             <div className="homeBody">
                 <ul className="keyArtical">
-                    <li className="keyLi">
-                        <h1 className="articalName">
-                            <a href="#">美国圣菲旧金山之行所感</a>
-                        </h1>
-                        <div className="articalInfo">
-                            <div className="infoLi">
-                                <Icon type="clock-circle" />
-                                <span>2019-07-26</span>
+                    {status == '200' && articalList.map(item => {
+                        return(
+                        <li className="keyLi" key={item.id}>
+                            <h1 className="articalName">
+                                <a href="#">{item.title}</a>
+                            </h1>
+                            <div className="articalInfo">
+                                <div className="infoLi">
+                                    <Icon type="clock-circle" />
+                                    <span>{item.time}</span>
+                                </div>
+                                <div className="infoLi">
+                                    <Icon type="eye" />
+                                    <span>{item.view}</span>
+                                </div>
+                                <div className="infoLi">
+                                    <Icon type="tag" />
+                                    <span>{item.type}</span>
+                                </div>
                             </div>
-                            <div className="infoLi">
-                                <Icon type="eye" />
-                                <span>123</span>
+                            <div className="articalAbstract" dangerouslySetInnerHTML={{__html:item.content}} />
+                            <div className="readMoreBtn">
+                                <a href="#">Read more</a>
                             </div>
-                            <div className="infoLi">
-                                <Icon type="tag" />
-                                <span>前端开发总结</span>
-                            </div>
-                        </div>
-                        <div className="articalAbstract">
-                            好久没有更新博客了，主要的原因…懒… 前段时间去了一趟美国，趁着开会的时间玩了一阵，还是挺开心的，见识到了很多奇特景观和异地文化。先是去了新墨西哥州的阿尔伯克基和圣菲，阿尔伯克基是中转机场，倒是没怎么停留和玩耍（貌似也没啥可玩的景点，倒是每年10月份有个热气球节，不过这次没能赶上…）。圣菲是开会的地方，从阿尔伯克基自驾过去也就1小时左右，虽说也处于美国大农村和沙滩戈壁的包围中，但却是一座非常精致的 ...
-                        </div>
-                        <div className="readMoreBtn">
-                            <a href="#">Read more</a>
-                        </div>
-                        <div className="post-eof"></div>
-                    </li>
-                    <li className="keyLi">
-                        <h1 className="articalName">
-                            <a href="#">美国圣菲旧金山之行所感</a>
-                        </h1>
-                        <div className="articalInfo">
-                            <div className="infoLi">
-                                <Icon type="clock-circle" />
-                                <span>2019-07-26</span>
-                            </div>
-                            <div className="infoLi">
-                                <Icon type="eye" />
-                                <span>123</span>
-                            </div>
-                            <div className="infoLi">
-                                <Icon type="tag" />
-                                <span>前端开发总结</span>
-                            </div>
-                        </div>
-                        <div className="articalAbstract">
-                            好久没有更新博客了，主要的原因…懒… 前段时间去了一趟美国，趁着开会的时间玩了一阵，还是挺开心的，见识到了很多奇特景观和异地文化。先是去了新墨西哥州的阿尔伯克基和圣菲，阿尔伯克基是中转机场，倒是没怎么停留和玩耍（貌似也没啥可玩的景点，倒是每年10月份有个热气球节，不过这次没能赶上…）。圣菲是开会的地方，从阿尔伯克基自驾过去也就1小时左右，虽说也处于美国大农村和沙滩戈壁的包围中，但却是一座非常精致的 ...
-                        </div>
-                        <div className="readMoreBtn">
-                            <a href="#">Read more</a>
-                        </div>
-                        <div className="post-eof"></div>
-                    </li>
+                            <div className="post-eof"></div>
+                        </li>
+                        )
+                    })}
                 </ul>
                 <div className="pages">
-                    <Pagination total={500} itemRender={itemRender} hideOnSinglePage={true} />
+                    <Pagination pageSize={5} onChange={(page,pageSize) => this.onChangePage(page,pageSize)} total={total} itemRender={itemRender} hideOnSinglePage={true} />
                 </div>
             </div>
             <Footer />
