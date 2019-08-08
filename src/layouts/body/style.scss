@@ -4,7 +4,7 @@
 }
 .bodyLeft{
     position:fixed;
-    width:16%;
+    width:18%;
     top: 3.6rem;
     left: 0;
     bottom: 0;
@@ -57,14 +57,23 @@
 .bodyRight{
     width:84%;
     display: inline-block;
-    margin-left:16%;
-    padding:30px 80px 50px 80px;
+    margin-left:18%;
+    padding:30px 0 50px 0;
     box-sizing: border-box;
 }
 .articalTitle{
     text-align: center;
-    margin-bottom:30px;
 }
 .leftOneList .active{
     color:#40a9ff;
+}
+.articalBody{
+    min-height:500px;
+    .articalInfo{
+        margin-bottom:30px;
+    }
+}
+.rightBox{
+    max-width: 800px;
+    margin:0 auto;
 }

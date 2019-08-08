@@ -6,7 +6,7 @@ class App extends React.Component<any> {
     render() {
       return (
         <div className="footer">
-          <div className="otherLink">
+          {/* <div className="otherLink">
             <a href="#">
               <Icon type="github" style={{ fontSize: '36px'}} />
             </a>
@@ -22,7 +22,7 @@ class App extends React.Component<any> {
             <a href="#">
               <Icon type="linkedin" style={{ fontSize: '36px'}} />
             </a>
-          </div>
+          </div> */}
           <div className="footerCopy">Copyright © 2019 - bright</div>
         </div>
       )

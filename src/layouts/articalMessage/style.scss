@@ -1,0 +1,70 @@
+.textarea textarea:focus{
+    box-shadow:none;
+}
+.messageHeader{
+    border-bottom:1px solid #e0e0e0;
+    padding:20px 0;
+    font-size:16px;
+}
+.messageName{
+    display: inline-block;
+}
+.messageCount{
+    float:right;
+}
+.inputMessage{
+    margin-top:20px;
+}
+.avatorBox{
+    display: inline-block;
+}
+.avatorBox img{
+    width:50px;
+    height:50px;
+    border-radius:4px;
+}
+.textarea{
+    display: inline-block;
+    margin-left:20px;
+    vertical-align: top;
+    width:730px;
+}
+.textarea .ant-input{
+    border:1px solid rgba(0,0,0,.1);
+    background:#f6f6f6;
+}
+.putMessageBtn{
+    margin-top:10px;
+    width:100%;
+    text-align: right;
+}
+.messageList{
+    margin-top:20px;
+}
+.messageContent{
+    display: inline-block;
+    margin-left:10px;
+    vertical-align: top;
+    background-color: #f6f9fe;
+    border-radius:4px;
+    width:730px;
+    box-sizing: border-box;
+    padding:10px;
+}
+.userName{
+    color:#6190e8;
+    font-weight:500;
+    font-size:14px;
+}
+.mseeageTime{
+    font-size:14px;
+    color:#a3a3a3;
+    margin:0 10px;
+}
+.messageText{
+    font-size:16px;
+    margin:10px 0;
+}
+.messageLi{
+    margin-bottom:20px;
+}
