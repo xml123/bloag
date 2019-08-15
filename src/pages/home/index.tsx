@@ -28,10 +28,10 @@ type IState = {
 
 function itemRender(current:number, type:string, originalElement:any) {
     if (type === 'prev') {
-      return <a>Previous</a>;
+      return <a>上一页</a>;
     }
     if (type === 'next') {
-      return <a>Next</a>;
+      return <a>下一页</a>;
     }
     return originalElement;
 }

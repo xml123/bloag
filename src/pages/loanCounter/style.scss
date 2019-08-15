@@ -1,0 +1,90 @@
+.title{
+    width:100%;
+    text-align: center;
+    font-size:20px;
+    margin:0;
+    padding:20px 0;
+}
+.twoBox{
+    width:100%;
+    border-top:1px solid #e0e0e0;
+    box-sizing: border-box;
+    display: flex;
+}
+.box_li{
+    flex: 1;
+    height:800px;
+    display: inline-block;
+}
+.box_li:first-child{
+    border-right:1px solid #e0e0e0;
+}
+.loanInfo{
+    padding:20px 0 20px 0;
+    text-align: center;
+}
+.loanLi{
+    height:50px;
+    line-height: 50px;
+    display: inline-block;
+    margin-right:20px;
+}
+.loanInfo .loanLi input{
+    display: inline-block;
+    width:120px;
+    margin-right:6px;
+}
+.loanInfo .ant-input-number{
+    margin-right:6px;
+}
+.btnBox{
+    display: inline-block;
+}
+.btnBox button{
+    margin-left:18px;
+}
+.loanli_title{
+    width:100%;
+    text-align: center;
+    font-size:16px;
+    padding:10px;
+    color:#3B97E0;
+}
+.loanli_title .anticon{
+    margin-left:6px;
+    cursor: pointer;
+    color:rgba(0, 0, 0, 0.65);
+}
+.result{
+    margin-top:20px;
+}
+.result ul{
+    list-style-type: none;
+    padding:0;
+    margin:0 auto;
+    width:360px;
+}
+.result li{
+    border-bottom:1px solid #e0e0e0;
+    height:36px;
+    line-height:36px;
+}
+.loanLeftTitle{
+    display: inline-block;
+    font-size:16px;
+    border-right:1px solid #e0e0e0;
+    width:160px;
+    text-align: center;
+}
+.rightValue{
+    display: inline-block;
+    width:200px;
+    text-align: right;
+    font-weight: 400;
+    color:red;
+    padding-right:20px;
+}
+.rightValue span{
+    color:#ccc;
+    margin-left:6px;
+}
