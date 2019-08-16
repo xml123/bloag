@@ -400,7 +400,7 @@ class LoanCounter extends React.Component<IProps,IState>{
                     <div className="asses_name">自我总结：</div>
                     <div className="asses_info">个人见解，不代表任何观点，有任何问题可在<a href="https://zhuanlan.zhihu.com/p/78451797" target="_black">我的知乎</a>上留言或评论</div>
                     <div className="asses_count">
-                        由上图可以看出，时间越长，所需还款总额越大，所以最省钱的就是不要贷款，😄😄（这不是废话吗，老子有钱还用贷款吗，好吧，当我没说......），
+                        由(本息合计图，即假设在某一期提前将贷款全部还完)可以看出，时间越长，所需还款总额越大，所以最省钱的就是不要贷款，😄😄（这不是废话吗，老子有钱还用贷款吗，好吧，当我没说......），
                     </div>
                     <div className="asses_count">等额本息还款，是每个月还款总额固定，即每月还款本金+利息是一定的，前期主要还款是利息，利息逐渐减少，本金逐渐增加。所以到了一定时间提前还款是不划算的，后期不怎么产生利息了，还的都是本金。</div>
                     <div className="asses_count">等额本金还款，是每个月还款本金一定，每个月所还利息是剩余本金所产生的利息，所以每月所需还利息逐渐减少，每月所需还总额逐渐减少。</div>
