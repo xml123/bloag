@@ -13,7 +13,7 @@
 }
 .box_li{
     flex: 1;
-    height:800px;
+    height:260px;
     display: inline-block;
 }
 .box_li:first-child{
@@ -87,4 +87,50 @@
 .rightValue span{
     color:#ccc;
     margin-left:6px;
+}
+.echartBox{
+    width:100%;
+}
+.tbHead{
+    text-align: center;
+    padding:20px 0;
+}
+.echartTitle{
+    display: inline-block;
+    font-size:16px;
+    font-weight:bold;
+}
+.tq_box{
+    display:inline-block;
+    margin-left:50px;
+    font-size:16px;
+}
+.tq_box input{
+    width:80px;
+}
+.tq_box .ant-input-number{
+    margin:0 8px;
+}
+.result .two_li{
+    height:50px;
+}
+.result .two_li .loanLeftTitle{
+    line-height:50px;
+}
+.result .two_li .rightValue{
+    line-height:30px;
+    vertical-align: top;
+    position:relative;
+}
+.mydj{
+    position:absolute;
+    display: block;
+    right:20px;
+    top:20px;
+}
+.result .one_li{
+    height:50px;
+}
+.one_li .loanLeftTitle{
+    line-height:50px;
 }

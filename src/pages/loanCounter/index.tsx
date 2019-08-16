@@ -7,11 +7,20 @@ type IState = {
     capital:number,
     rate:number,
     time:number,
-    interest_one:number
+    interest_one:number,
+    two_obj:any,
+    one_obj:any,
+}
+
+interface IProps {
+    style: React.CSSProperties
 }
 
 
-class LoanCounter extends React.Component<any,IState>{
+class LoanCounter extends React.Component<IProps,IState>{
+    constructor(props: IProps) {
+        super(props);
+    }
 
     state = {time:30,rate:4.90,interest_one:0} as IState
 
@@ -23,9 +32,20 @@ class LoanCounter extends React.Component<any,IState>{
     //等额本金
     counter_one = (all:number,num:number,rate:number,zlx:number,ylv:number) =>{
         if(num == 0){
+            const {capital,time,rate} = this.state
             const zlx_float = parseFloat(zlx.toFixed(2))
+            const all_count = capital*10000 + zlx_float
+            const syhk = (capital*10000*rate/100/12+capital*10000/time/12).toFixed(2)
+            const ydj = (capital*10000/time/12*rate/100/12).toFixed(2)
             this.setState({
-                interest_one:zlx_float
+                two_obj:{
+                    count:capital*10000,
+                    time:time*12,
+                    yhk:syhk,
+                    zlx:zlx_float,
+                    hj:all_count,
+                    ydj:ydj
+                }
             })
             return
         }
@@ -36,28 +56,39 @@ class LoanCounter extends React.Component<any,IState>{
     }
 
     //等额本息
-    debx(sum_l:number,n:number){
-        const rate = 0.0588
-        const bj = 930000
+    debx(bj:number,rate:number,sum_l:number,n:number){
         if(n == 0){
+            const {time} = this.state
             let yhk = bj*rate*sum_l/12/(sum_l-1)
-            this.ylx(bj,yhk,300,0)
+            this.ylx(bj,rate,yhk,time*12,0)
             return
         }
         let sum = (1+rate/12)*sum_l
-        this.debx(sum,n-1)
+        this.debx(bj,rate,sum,n-1)
     }
-    //月利息
-    ylx(bj:number,yhk:number,n:number,zlx:number){
+
+    //总利息
+    ylx(bj:number,rate:number,yhk:number,n:number,zlx:number){
         if(n == 0){
-            console.log('zlx',zlx)
+            const {time,capital} = this.state
+            const zlx_float = parseFloat(zlx.toFixed(2))
+            const all_count = capital*10000 + zlx_float
+            const y_hk = (all_count/time/12).toFixed(2)
+            this.setState({
+                one_obj:{
+                    count:capital*10000,
+                    time:time*12,
+                    yhk:y_hk,
+                    zlx:zlx_float,
+                    hj:all_count
+                }
+            })
             return
         }
-        const rate = 0.0588
         let lx = bj*rate/12
         let ye = bj - (yhk-lx)
         let sum_lx = zlx+lx
-        this.ylx(ye,yhk,n-1,sum_lx)
+        this.ylx(ye,rate,yhk,n-1,sum_lx)
     }
 
     //修改本金
@@ -67,22 +98,19 @@ class LoanCounter extends React.Component<any,IState>{
             capital:e.target.value
         })
     }
-
     //修改贷款时长
     changeTime(value:any){
         this.setState({
             time:value
         })
     }
-
-    //修改利率
+    //下拉框修改利率
     changeRate(value:any){
         this.setState({
             rate:value
         })
     }
-
-    //修改利率
+    //输入框修改利率
     changeInput(e:any){
         this.setState({
             rate:e.target.value
@@ -93,11 +121,12 @@ class LoanCounter extends React.Component<any,IState>{
     counter = () =>{
         const {capital,time,rate} = this.state
         this.counter_one(capital*10000,time*12,rate/100,0,capital*10000/12/time)
+        this.debx(capital*10000,rate/100,1,time*12)
     }
 
 
     render(){
-        const {capital,time,rate,interest_one} = this.state
+        const {capital,time,rate,one_obj,two_obj} = this.state
         return(
             <div>
                 <h3 className="title">贷款计算器</h3>
@@ -125,8 +154,7 @@ class LoanCounter extends React.Component<any,IState>{
                         <Button type="primary" onClick={this.counter}>计算</Button>
                         <Button>重置</Button>
                     </div>
-                </div>
-
+                </div>\
                 <div className="twoBox">
                     <div className="box_li">
                         <div className="loanli_title">等额本息还款
@@ -138,23 +166,23 @@ class LoanCounter extends React.Component<any,IState>{
                             <ul>
                                 <li>
                                     <div className="loanLeftTitle">贷款总额</div>
-                                    <div className="rightValue">{capital ? capital*10000 : capital}<span>元</span></div>
+                                    <div className="rightValue">{one_obj ? one_obj.count : ''}<span>元</span></div>
                                 </li>
                                 <li>
                                     <div className="loanLeftTitle">还款月数</div>
-                                    <div className="rightValue">{time*12}<span>月</span></div>
+                                    <div className="rightValue">{one_obj ? one_obj.time : ''}<span>月</span></div>
                                 </li>
-                                <li>
+                                <li className="one_li">
                                     <div className="loanLeftTitle">每月还款</div>
-                                    <div className="rightValue">930000<span>元</span></div>
+                                    <div className="rightValue">{one_obj ? one_obj.yhk : ''}<span>元</span></div>
                                 </li>
                                 <li>
                                     <div className="loanLeftTitle">总支付利息</div>
-                                    <div className="rightValue">{isNaN(interest_one) ? '' : interest_one}<span>元</span></div>
+                                    <div className="rightValue">{one_obj ? one_obj.zlx : ''}<span>元</span></div>
                                 </li>
                                 <li>
                                     <div className="loanLeftTitle">本息合计</div>
-                                    <div className="rightValue">{isNaN(capital+interest_one) ? '' : (capital+interest_one)}<span>元</span></div>
+                                    <div className="rightValue">{one_obj ? one_obj.hj : ''}<span>元</span></div>
                                 </li>
                             </ul>
                         </div>
@@ -169,27 +197,43 @@ class LoanCounter extends React.Component<any,IState>{
                             <ul>
                                 <li>
                                     <div className="loanLeftTitle">贷款总额</div>
-                                    <div className="rightValue">{capital ? capital*10000 : capital}<span>元</span></div>
+                                    <div className="rightValue">{two_obj ? two_obj.count : ''}<span>元</span></div>
                                 </li>
                                 <li>
                                     <div className="loanLeftTitle">还款月数</div>
-                                    <div className="rightValue">{time*12}<span>月</span></div>
+                                    <div className="rightValue">{two_obj ? two_obj.time : ''}<span>月</span></div>
                                 </li>
-                                <li>
+                                <li className="two_li">
                                     <div className="loanLeftTitle">首月还款</div>
-                                    <div className="rightValue">930000<span>元</span></div>
+                                    <div className="rightValue">{two_obj ? two_obj.yhk : ''}<span>元</span>
+                                        <span className="mydj">每月递减{two_obj ? two_obj.ydj : ''}元</span>
+                                    </div>
                                 </li>
                                 <li>
                                     <div className="loanLeftTitle">总支付利息</div>
-                                    <div className="rightValue">{isNaN(interest_one) ? '' : interest_one}<span>元</span></div>
+                                    <div className="rightValue">{two_obj ? two_obj.zlx : ''}<span>元</span></div>
                                 </li>
                                 <li>
                                     <div className="loanLeftTitle">本息合计</div>
-                                    <div className="rightValue">{isNaN(capital+interest_one) ? '' : capital*10000+interest_one}<span>元</span></div>
+                                    <div className="rightValue">{two_obj ? two_obj.hj : ''}<span>元</span></div>
                                 </li>
                             </ul>
                         </div>
                     </div>
+                </div>
+                <div className="echartBox">
+                    <div className="tbHead">
+                        <div className="echartTitle">提前还款</div>
+                        <div className="tq_box">
+                            假设第
+                            <InputNumber onChange={(e)=> this.changeCapital(e)} value={300} placeholder="请输入数字" />
+                            期全部还完
+                        </div>
+                    </div>
+                    <div className="echartBody">
+                        
+                    </div>
+                    
                 </div>
             </div>
         )
