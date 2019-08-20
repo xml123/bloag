@@ -3,7 +3,8 @@ import './style.scss'
 import avator from '../../assets/images/ruanyifeng.png'
 import axios from 'axios'
 import config from '../../../config/index'
-import { Input,Button } from 'antd'
+import { Input,Button,Icon,message } from 'antd'
+import {GetUrl} from '../../assets/js/tool'
 const { TextArea } = Input
 
 type IItem = {
@@ -19,7 +20,11 @@ type IProps = {
 
 type IState = {
     messageList:IItem[],
-    code:string
+    code:string,
+    name:string,
+    avator_link:string,
+    html_link:string,
+    comment:string
 }
 
 class ArticalMessage extends React.Component<IProps,IState>{
@@ -27,11 +32,45 @@ class ArticalMessage extends React.Component<IProps,IState>{
         super(props);
     }
 
-    state = {} as IState
+    state = {
+        name:localStorage.getItem("userName"),
+        avator_link:localStorage.getItem("avatar_url"),
+        html_link:localStorage.getItem("html_link")
+    } as IState
 
     componentDidMount(){
         const {id} = this.props
         this.getMessageList(id)
+        this.getUrl()
+    }
+
+    getUrl(){
+        if(!localStorage.getItem("loginStatus")){
+            const urlSeqarch = window.location.search
+            const value = GetUrl(urlSeqarch,'code')
+            if(!value){
+                return
+            }
+            axios.post(config.API_BASE_URL+'/api/get_code',{code:value},
+            {headers: {'Content-Type': 'application/json'}})
+            .then(res => {
+                const res_data = res.data
+                if(res_data.code == '200'){
+                    this.setState({
+                        name:res_data.data.name,
+                        avator_link:res_data.data.avatar_url,
+                        html_link:res_data.data.html_link
+                    })
+                    localStorage.setItem("loginStatus","1")
+                    localStorage.setItem("userName",res_data.data.name)
+                    localStorage.setItem("avatar_url",res_data.data.avatar_url)
+                    localStorage.setItem("html_link",res_data.data.html_link)
+                }
+            })
+            .catch(function(err){
+                console.log(err)
+            })
+        }
     }
 
     componentWillReceiveProps(nextProps:any){
@@ -70,24 +109,59 @@ class ArticalMessage extends React.Component<IProps,IState>{
         })
     }
 
+    login(){
+        const thisHref = window.location.href
+        window.location.href="https://github.com/login/oauth/authorize?client_id=0fd0f7869375ba937215&redirect_uri="+thisHref
+    }
+
+    //添加评论
+    addComment = () => {
+        const {name,comment} = this.state
+        const {id} = this.props
+        if(!name){
+            return message.warning('请先登录!')
+        }
+        if(!comment){
+            return message.warning('请先输入评论内容!')
+        }
+        axios.post(config.API_BASE_URL+'/api/add_artical_message',{artical_id:id,name:name,comment:comment})
+        .then(res => {
+            message.success('评论成功！')
+            this.setState({
+                comment:''
+            })
+            this.getMessageList(id)
+        })
+        .catch(function(err){
+            console.log(err)
+        })
+    }
+
     render(){
-        const {code, messageList} = this.state
+        const {code, messageList, name, avator_link, html_link,comment} = this.state
         return(
             <div className="articalMessage">
                 <div className="messageHeader">
                     <div className="messageName">文章评论</div>
-                    <div className="messageCount">3条评论</div>
+                    <div className="messageCount"><span>{messageList ? messageList.length : 0}</span>条评论</div>
+                    <div className="userName">{name ? name : '未登录'}</div>
                 </div>
                 <div className="inputMessage">
                     <div className="avatorBox">
-                        <img src={avator} alt="avator" />
+                        {name && <a href={html_link} target="_black"><img src={avator_link as any} alt="avator" /></a>}
+                        {!name && <Icon type="github" />}
                     </div>
                     <div className="textarea">
-                        <TextArea placeholder="说点什么" rows={4} />
+                        <TextArea onChange={(e) => {
+                            this.setState({
+                                comment:e.target.value
+                            })
+                        }} value={comment} placeholder="说点什么" rows={4} />
                     </div>
                 </div>
                 <div className="putMessageBtn">
-                    <Button type="primary">评论</Button>
+                    {!name && <Button type="primary" className="loginBtn" onClick={this.login}>github登录</Button>}
+                    <Button onClick={this.addComment} type="primary">评论</Button>
                 </div>
                 {code == '200' && <div className="messageList">
                     {messageList.map(item=>{
@@ -102,13 +176,6 @@ class ArticalMessage extends React.Component<IProps,IState>{
                                         <span className="mseeageTime">发表于：{item.time}</span>
                                     </div>
                                     <div className="messageText">{item.message}</div>
-                                    <div className="userInfo">
-                                        <span className="userName">章三</span>
-                                        <span className="mseeageTime">回复</span>
-                                        <span className="userName">李四</span>
-                                        ：
-                                    </div>
-                                    <div className="messageText">你啊数据大阿三等奖爱仕达大撒阿斯顿你啊数据大阿三等奖爱仕达大撒阿斯顿</div>
                                 </div>
                             </div>
                         )
