@@ -122,7 +122,28 @@ class HeadBar extends React.Component<IProps, IState> {
                 杂谈 <Icon type="down" />
                 </a>
             </Dropdown>
-            <Link to="/friend">友情链接</Link>
+            <Dropdown overlay={<Menu>
+                <Menu.Item key={0}>
+                  <Link to="/friend">友情链接</Link>
+                </Menu.Item>
+                <Menu.Item key={1}>
+                  <Link to="/friend">个人简介</Link>
+                </Menu.Item>
+              </Menu>}>
+                <a className="ant-dropdown-link" href="#">
+                了解更多 <Icon type="down" />
+                </a>
+            </Dropdown>
+            <Dropdown overlay={<Menu>
+                <Menu.Item key={0}>
+                  <Link to="/loan" target="_black">贷款分析器</Link>
+                </Menu.Item>
+              </Menu>}>
+                <a className="ant-dropdown-link" href="#">
+                实用工具 <Icon type="down" />
+                </a>
+            </Dropdown>
+            
             <Link to="/message">留言</Link>
             <a href="https://github.com/xml123/bloag" target="_blank"><Icon type="github" style={{ fontSize: '24px'}}  /></a>
           </div>

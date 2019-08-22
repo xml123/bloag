@@ -4,6 +4,7 @@ import axios from 'axios'
 import config from '../../../config/index'
 import ArticalMessage from '../../layouts/articalMessage'
 import {Icon} from 'antd'
+import {GetUrl} from '../../assets/js/tool'
 
 type IProps = {
     title:string
@@ -35,6 +36,8 @@ export default class App extends React.Component<IProps,IState>{
     state = {articalNum:0,articalId:0} as IState
 
     getArticalList = (title:string) => {
+        const urlSeqarch = window.location.search
+        const artical_id = GetUrl(urlSeqarch,'artical_id')
         if(!title){
             return
         }
@@ -43,10 +46,23 @@ export default class App extends React.Component<IProps,IState>{
         .then((res) => {
             if(res.data.code === '200'){
                 const res_obj = res.data.data
+                let articalId = res_obj[0].id
+                let articalNum = 0
+                if(artical_id){
+                    articalId = artical_id
+                    for(let i=0;i<res_obj.length;i++){
+                        if(res_obj[i].id == artical_id){
+                            console.log(i)
+                            articalNum = i
+                            break 
+                        }
+                    }
+                }
                 this.setState({
                     list:res_obj,
                     code:res.data.code,
-                    articalId:res_obj[0].id
+                    articalId:res_obj[0].id,
+                    articalNum:articalNum
                 }) 
             }
         })
@@ -56,7 +72,7 @@ export default class App extends React.Component<IProps,IState>{
     }
 
     componentDidMount(){
-        this.getArticalList(this.props.title) 
+        this.getArticalList(this.props.title)
     }
     componentWillReceiveProps(nextProps:any) {
         this.getArticalList(nextProps.title)
@@ -64,6 +80,10 @@ export default class App extends React.Component<IProps,IState>{
     changeArtical = (e:any) => {
         const index = e.target.getAttribute('data-index')
         const articalId = e.target.getAttribute('data-num')
+        const {articalNum} = this.state
+        if(articalNum == index){
+            return
+        }
         this.setState({
             articalNum:index,
             articalId:articalId
@@ -71,7 +91,6 @@ export default class App extends React.Component<IProps,IState>{
     }
     render(){
         const {list,code,articalNum,articalId} = this.state
-        console.log('articalId',articalId,articalNum)
         return(
             <div className="bodyBox">
                 <div className="bodyLeft">
@@ -97,10 +116,6 @@ export default class App extends React.Component<IProps,IState>{
                                 <div className="infoLi">
                                     <Icon type="eye" />
                                     <span>{list[articalNum].view}</span>
-                                </div>
-                                <div className="infoLi">
-                                    <Icon type="tag" />
-                                    <span>{list[articalNum].type}</span>
                                 </div>
                             </div>
                             <div dangerouslySetInnerHTML={{__html:list[articalNum].content}} />

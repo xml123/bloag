@@ -6,6 +6,7 @@ import { Icon, Pagination } from 'antd'
 import './style.scss'
 import axios from 'axios'
 import config from '../../../config/index'
+import {Link} from 'react-router-dom'
 
 interface IProps {
     style: React.CSSProperties
@@ -17,7 +18,8 @@ type IItem = {
     view:number,
     content:string,
     time:string,
-    type:string
+    type:string,
+    classType:string
 }
 
 type IState = {
@@ -77,7 +79,9 @@ class App extends React.Component<IProps,IState> {
                         return(
                         <li className="keyLi" key={item.id}>
                             <h1 className="articalName">
-                                <a href="#">{item.title}</a>
+                            <Link rel="noopener noreferrer" to={'/artical/'+item.classType+'?artical_id='+item.id}>
+                                {item.title}
+                            </Link>
                             </h1>
                             <div className="articalInfo">
                                 <div className="infoLi">
@@ -95,7 +99,9 @@ class App extends React.Component<IProps,IState> {
                             </div>
                             <div className="articalAbstract" dangerouslySetInnerHTML={{__html:item.content}} />
                             <div className="readMoreBtn">
-                                <a href="#">Read more</a>
+                                <Link rel="noopener noreferrer" to={'/artical/'+item.classType+'?artical_id='+item.id}>
+                                Read more
+                                </Link>
                             </div>
                             <div className="post-eof"></div>
                         </li>

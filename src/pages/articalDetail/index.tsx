@@ -33,6 +33,7 @@ class App extends React.Component<IProps,IState>{
         } 
      }   
     render(){
+        console.log('title',this.state.title)
         return(
             <div>
                 <HomeHeader />
