@@ -33,7 +33,7 @@ class MessageList extends React.Component<IProps,any>{
                             </div>
                             <div className="messageContent">
                                 <div className="userInfo">
-                                    <span className="userName">{item.visitor.name}</span>
+                                    <span className="userName"><a target="_black" href={item.visitor.link}>{item.visitor.name}</a></span>
                                     <span className="mseeageTime">发表于：{item.time}</span>
                                     <span className="right_replay" onClick={()=>changeReplay(item.visitor.name,item.id)}>评论</span>
                                 </div>
@@ -49,7 +49,7 @@ class MessageList extends React.Component<IProps,any>{
                                                 </div>
                                                 <div className="child_content">
                                                     <div className="userInfo">
-                                                        <span className="userName">{item2.visitor.name}</span>
+                                                        <span className="userName"><a href={item2.visitor.link} target="_black">{item2.visitor.name}</a></span>
                                                         <span className="mseeageTime">回复于：{item2.time}</span>
                                                     </div>
                                                     <div className="messageText">{item2.message}</div>
