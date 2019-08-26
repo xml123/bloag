@@ -127,7 +127,7 @@ class HeadBar extends React.Component<IProps, IState> {
                   <Link to="/friend">友情链接</Link>
                 </Menu.Item>
                 <Menu.Item key={1}>
-                  <Link to="/friend">个人简介</Link>
+                  <Link to="/user">个人简介</Link>
                 </Menu.Item>
               </Menu>}>
                 <a className="ant-dropdown-link" href="#">
@@ -143,8 +143,6 @@ class HeadBar extends React.Component<IProps, IState> {
                 实用工具 <Icon type="down" />
                 </a>
             </Dropdown>
-            
-            <Link to="/message">留言</Link>
             <a href="https://github.com/xml123/bloag" target="_blank"><Icon type="github" style={{ fontSize: '24px'}}  /></a>
           </div>
         </div>

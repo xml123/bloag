@@ -8,7 +8,7 @@ const { TextArea } = Input
 
 type IProps = {
     messageLength:number,
-    id:number,
+    id:number | undefined,
     getMessageList:any,
     replayName:string,
     replayId:any
@@ -94,7 +94,23 @@ class ArticalLogin extends React.Component<IProps,IState>{
         if(!post_comment){
             return message.warning('请先输入评论内容!')
         }
-        axios.post(config.API_BASE_URL+'/api/add_artical_message',{artical_id:id,name:name,comment:post_comment,replay_id:replay_id})
+        let url = config.API_BASE_URL+'/api/add_artical_message'
+        let data = {
+            artical_id:id,
+            name:name,
+            comment:post_comment,
+            replay_id:replay_id
+        }
+        if(id == undefined){
+            url = config.API_BASE_URL+'/api/add_live_message'
+            data = {
+                artical_id:undefined,
+                name:name,
+                comment:post_comment,
+                replay_id:replay_id
+            }
+        }
+        axios.post(url,data)
         .then(res => {
             message.success('评论成功！')
             this.setState({
@@ -113,13 +129,13 @@ class ArticalLogin extends React.Component<IProps,IState>{
     }
 
     render(){
-        const {messageLength} = this.props
+        const {messageLength,id} = this.props
         const {html_link,avator_link,comment,name} = this.state
         return (
             <div>
                 <div className="messageHeader">
-                    <div className="messageName">文章评论</div>
-                    <div className="messageCount"><span>{messageLength}</span>条评论</div>
+                    {id != undefined &&<div className="messageName">文章评论</div>}
+                    <div className="messageCount"><span>{messageLength}</span>条{id == undefined ? '留言' : '评论'}</div>
                     <div className="userName">{name ? name : '未登录'}</div>
                 </div>
                 <div className="inputMessage">

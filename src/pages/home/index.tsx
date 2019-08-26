@@ -19,7 +19,8 @@ type IItem = {
     content:string,
     time:string,
     type:string,
-    classType:string
+    classType:string,
+    contentText:string
 }
 
 type IState = {
@@ -97,7 +98,7 @@ class App extends React.Component<IProps,IState> {
                                     <span>{item.type}</span>
                                 </div>
                             </div>
-                            <div className="articalAbstract" dangerouslySetInnerHTML={{__html:item.content}} />
+                            <div className="articalAbstract">{item.contentText}</div>
                             <div className="readMoreBtn">
                                 <Link rel="noopener noreferrer" to={'/artical/'+item.classType+'?artical_id='+item.id}>
                                 Read more

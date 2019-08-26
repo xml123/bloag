@@ -73,6 +73,10 @@
     width:700px;
     height:170px;
     overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
 }
 .readMoreBtn{
     margin-top:50px;

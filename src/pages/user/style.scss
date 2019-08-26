@@ -1,0 +1,62 @@
+.userBody{
+    background: #e9eaed;
+    width:100%;
+    height:100%;
+    padding-top:80px;
+    padding-bottom:80px;
+    box-sizing: border-box;
+}
+.user{
+    text-align: center;
+    margin:0 auto;
+    padding:30px;
+    width:1200px;
+    height:100%;
+    background:#fff;
+}
+.userAbs_title{
+    margin:0;
+    padding:0;
+    text-align:left;
+    padding-bottom:20px;
+    border-bottom:1px solid #e0e0e0;
+}
+.userInfo_li{
+    text-align: left;
+    font-size:16px;
+    padding-top:20px;
+}
+.user_info h3{
+    text-align: left;
+    margin:0;
+    padding:0;
+    margin-top:50px;
+    color:#0084ff;
+}
+.userInfo_li span{
+    color:#0084ff;
+    cursor: pointer;
+    margin-left:6px;
+}
+.user_link{
+    text-align: left;
+}
+.user_link .userInfo_li{
+    display: inline-block;
+    margin-right:20px;
+}
+.user_info{
+    margin-bottom:80px;
+}
+.live_message_all{
+    text-align: left;
+    width:800px;
+    margin:0 auto;
+}
+.live_message_title{
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
