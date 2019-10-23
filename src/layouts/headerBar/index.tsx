@@ -136,6 +136,9 @@ class HeadBar extends React.Component<IProps, IState> {
             </Dropdown>
             <Dropdown overlay={<Menu>
                 <Menu.Item key={0}>
+                    <Link to="/books">技术书籍</Link>
+                </Menu.Item>
+                <Menu.Item key={1}>
                   <Link to="/loan" target="_black">贷款分析器</Link>
                 </Menu.Item>
               </Menu>}>

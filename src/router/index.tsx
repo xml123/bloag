@@ -7,6 +7,7 @@ import Message from '../../src/pages/message'
 import ArticalDetail from '../../src/pages/articalDetail'
 import LoanCounter from '../../src/pages/loanCounter'
 import User from '../../src/pages/user'
+import TechBooks from '../../src/pages/techBooks'
 
 const AppRoutes = () => (
     <Router forceRefresh={false}>
@@ -17,6 +18,7 @@ const AppRoutes = () => (
             <Route path="/message" component={Message} />
             <Route path="/loan" component={LoanCounter} />
             <Route path="/user" component={User} />
+            <Route path="/books" component={TechBooks} />
             <Route path="/artical/:id" component={ArticalDetail} />
         </div>
     </Router>
